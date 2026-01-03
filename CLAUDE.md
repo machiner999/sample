@@ -87,3 +87,22 @@ interface StockData {
 - Strictモード有効
 - Target: ES2017
 - Module resolution: bundler（Next.js 14のデフォルト）
+
+## 開発時の注意点
+
+### APIキーの扱い
+- APIキーは環境変数ではなく、**ユーザーがUIから入力する設計**
+- セキュリティ上、APIキーはサーバー側に保存されず、リクエストごとにクライアントから送信される
+- Alpha Vantage APIキーは https://www.alphavantage.co/support/#api-key から無料で取得可能
+
+### エラーハンドリング
+APIルート（app/api/stock/route.ts）は以下のエラーケースを処理：
+- 無効な銘柄コード → 404エラー
+- API制限超過 → 429エラー（1分あたり5リクエスト、1日100リクエストの制限）
+- データ取得失敗 → 500エラー
+
+### テスト用の銘柄コード
+- AAPL (Apple)
+- GOOGL (Google)
+- MSFT (Microsoft)
+- TSLA (Tesla)
